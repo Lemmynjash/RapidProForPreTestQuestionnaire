@@ -1,0 +1,27 @@
+-load humanize channels
+
+.log<
+  .summary{id:"{{log.id}}"}
+    .time.pull-right
+      {{log.created_on|date:"M j, Y g:i:s a"}}
+
+
+    .request-time.pull-right
+      -if log.request_time
+        Request time:
+        %span.request-time-value
+          {{ log.request_time|default:"0"|intcomma }}ms
+
+    -if log.response_status
+      %span.status-code
+        {{ log.response_status }}
+    %span.url
+      %span.method= log.method
+        {% channellog_url log %}
+  .details.hide
+    %pre.prettyprint.request<
+      :plain
+        {% channellog_request log %}
+    %pre.prettyprint.response<
+      :plain
+        {% channellog_response log %}

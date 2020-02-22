@@ -1,0 +1,29 @@
+-extends 'flows/flow_update.haml'
+
+
+-block fields
+
+  :css
+    .modal .modal-body {
+        max-height: 450px;
+    }
+
+  {{block.super}}
+
+-block modal-script
+  {{block.super}}
+
+  :javascript
+    $(document).ready(function() {
+      // Don't show keywords when Surveyor is selected
+      $('#id_flow_type').on('change', function() {
+        var is_surveyor = $(this).attr('value') == 'S';
+        var triggers = $('#id_keyword_triggers').parents('.control-group')
+
+        if (is_surveyor) {
+          triggers.hide()
+        } else {
+          triggers.show()
+        }
+      });
+    });
